@@ -27,8 +27,6 @@ COLORS       = [PALETTE[s] for s in SOURCE_ORDER]
 
 # -- load data ------------------------------------------------------------------
 df = pd.read_csv("Data_cleaned_for_analysis.csv")
-print(f"Dataset loaded: {df.shape[0]} rows × {df.shape[1]} columns\n")
-
 
 # =============================================================================
 # SECTION A -  DATA SUMMARY
@@ -38,10 +36,7 @@ banner("SECTION A - DATA SUMMARY")
 # -- Data Summary --------------------------------
 pd.set_option('display.max_columns', None)
 pd.set_option('display.width', 1000)
-print("Descriptive Statistics for Quantitative Variables:")
-print("-" * 65)
 print(df.describe())
-print("-" * 65)
 
 # -- Histogram - distribution of contaminant_ppm --------------------------
 fig, ax = plt.subplots(figsize=(9, 5))
@@ -175,8 +170,8 @@ print(f"  Critical value  z_{{alpha/2}} = z_0.025        = +/- {z_critical:.4f}"
 print(f"  p-value (two-tailed)                    = {p_value:.6f}")
 
 # -- decision ------------------------------
-print(f"\nDecision rule:  Reject H0 if |z0| > {z_critical:.4f}")
-print(f"                |z0| = {abs(z0):.4f}  →  ", end="")
+print(f"\nDecision:  Reject H0 if |z0| > {z_critical:.4f}")
+print(f"                |z0| = {abs(z0):.4f}  ->  ", end="")
 if abs(z0) > z_critical:
     print("REJECT H0")
     conclusion = "reject"
@@ -232,7 +227,7 @@ ax.set_title("Standard Normal: Two-Sample t-Test\n(Well vs. River)", fontsize=12
 ax.set_xlabel("z"); ax.set_ylabel("Density")
 ax.legend(fontsize=9); ax.grid(axis="y", linestyle="--", alpha=0.4)
 ax.spines[["top", "right"]].set_visible(False)
-ax.annotate(f"z0 = {z0:.4f}\np = {p_value:.4f}\n→ Fail to Reject H0",
+ax.annotate(f"z0 = {z0:.4f}\np = {p_value:.4f}\n-> Fail to Reject H0",
             xy=(z0, stats.norm.pdf(z0)),
             xytext=(z0 + 0.6, 0.25),
             arrowprops=dict(arrowstyle="->", color="#1565C0"),
@@ -305,8 +300,8 @@ print(f"  {'F0 = MSTr / MSE':<35} {F0:>14.8f}")
 print(f"  {'F_crit = F(0.05; {df_Tr}; {df_E})':<35} {F_crit:>14.4f}")
 print(f"  {'p-value':<35} {p_anova:>14.6f}")
 
-print(f"\nDecision rule:  Reject H0 if F0 > F_crit = {F_crit:.4f}")
-print(f"                F0 = {F0:.4f}  →  ", end="")
+print(f"\nDecision:  Reject H0 if F0 > F_crit = {F_crit:.4f}")
+print(f"                F0 = {F0:.4f}  ->  ", end="")
 if F0 > F_crit:
     print("REJECT H0")
     anova_decision = "reject"
@@ -353,7 +348,7 @@ ax.axvline(F0, color="#1565C0", linewidth=2.2, linestyle="--",
            label=f"F0 = {F0:.4f}")
 ax.axvline(F_crit, color="#E53935", linewidth=1.5, linestyle=":",
            label=f"F_crit = {F_crit:.2f}")
-ax.annotate(f"F0 = {F0:.4f}\np = {p_anova:.4f}\n→ Fail to Reject H0",
+ax.annotate(f"F0 = {F0:.4f}\np = {p_anova:.4f}\n-> Fail to Reject H0",
             xy=(F0, stats.f.pdf(F0, df_Tr, df_E)),
             xytext=(F0 + 0.5, 0.4),
             arrowprops=dict(arrowstyle="->", color="#1565C0"),
@@ -412,8 +407,8 @@ print(f"  Degrees of freedom       = {df2_chi}")
 print(f"  X²_crit (alpha=0.05, df={df2_chi}) = {chi2_crit_2:.4f}")
 print(f"  p-value                  = {p_chi2_2:.4f}")
 
-print(f"\nDecision rule:  Reject H0 if X² > X²_crit = {chi2_crit_2:.4f}")
-print(f"                X² = {chi2_2:.4f}  →  ", end="")
+print(f"\nDecision:  Reject H0 if X² > X²_crit = {chi2_crit_2:.4f}")
+print(f"                X² = {chi2_2:.4f}  ->  ", end="")
 if chi2_2 > chi2_crit_2:
     print("REJECT H0")
     d_decision = "reject"
@@ -469,7 +464,7 @@ ax.axvline(chi2_2, color="#1565C0", linewidth=2.2, linestyle="--",
            label=f"X² = {chi2_2:.4f}")
 ax.axvline(chi2_crit_2, color="#E53935", linewidth=1.5, linestyle=":",
            label=f"X²_crit = {chi2_crit_2:.2f}")
-ax.annotate(f"X² = {chi2_2:.4f}\np = {p_chi2_2:.4f}\n→ Fail to Reject H0",
+ax.annotate(f"X² = {chi2_2:.4f}\np = {p_chi2_2:.4f}\n-> Fail to Reject H0",
             xy=(chi2_2, stats.chi2.pdf(chi2_2, df2_chi)),
             xytext=(chi2_2 + 0.8, 0.25),
             arrowprops=dict(arrowstyle="->", color="#1565C0"),
@@ -532,8 +527,8 @@ print(f"  Degrees of freedom          = {df_all}")
 print(f"  X²_crit (alpha=0.05, df={df_all}) = {chi2_crit_all:.4f}")
 print(f"  p-value                     = {p_chi2_all:.4f}")
 
-print(f"\nDecision rule:  Reject H0 if X² > X²_crit = {chi2_crit_all:.4f}")
-print(f"                X² = {chi2_all:.4f}  →  ", end="")
+print(f"\nDecision:  Reject H0 if X² > X²_crit = {chi2_crit_all:.4f}")
+print(f"                X² = {chi2_all:.4f}  ->  ", end="")
 if chi2_all > chi2_crit_all:
     print("REJECT H0")
     e_decision = "reject"
@@ -576,7 +571,7 @@ ax.axvline(chi2_all, color="#1565C0", linewidth=2.2, linestyle="--",
            label=f"X² = {chi2_all:.4f}")
 ax.axvline(chi2_crit_all, color="#E53935", linewidth=1.5, linestyle=":",
            label=f"X²_crit = {chi2_crit_all:.2f}")
-ax.annotate(f"X² = {chi2_all:.4f}\np = {p_chi2_all:.4f}\n→ Fail to Reject H0",
+ax.annotate(f"X² = {chi2_all:.4f}\np = {p_chi2_all:.4f}\n-> Fail to Reject H0",
             xy=(chi2_all, stats.chi2.pdf(chi2_all, df_all)),
             xytext=(chi2_all + 2, 0.05),
             arrowprops=dict(arrowstyle="->", color="#1565C0"),
