@@ -90,7 +90,7 @@ bars = ax.bar(SOURCE_ORDER, means, color=COLORS, edgecolor="white",
 for bar, val in zip(bars, means):
     ax.text(bar.get_x() + bar.get_width() / 2, bar.get_height() + 0.05,
             f"{val:.2f}", ha="center", va="bottom", fontsize=9.5, fontweight="bold")
-ax.set_title("Mean Contaminant Level (ppm) by Water Source Type\n(error bars = +/- 1 SE)",
+ax.set_title("Mean Contaminant Level (ppm) by Water Source Type",
              fontsize=13, fontweight="bold", pad=12)
 ax.set_xlabel("Water Source Type", fontsize=11)
 ax.set_ylabel("Mean Contaminant Level (ppm)", fontsize=11)
@@ -114,7 +114,7 @@ x_line = np.linspace(df["ph_level"].min(), df["ph_level"].max(), 200)
 ax.plot(x_line, intercept + slope * x_line, color="#E53935",
         linewidth=2, linestyle="--",
         label=f"Linear fit  r = {r:.3f}")
-ax.set_title("Contaminant Level vs. pH Level\n(coloured by water source type)",
+ax.set_title("Contaminant Level vs. pH Level",
              fontsize=13, fontweight="bold", pad=12)
 ax.set_xlabel("pH Level", fontsize=11)
 ax.set_ylabel("Contaminant Level (ppm)", fontsize=11)
