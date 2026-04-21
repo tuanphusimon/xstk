@@ -1,0 +1,173 @@
+=================================================================
+  SECTION A - DATA SUMMARY
+=================================================================
+              year  contaminant_ppm     ph_level  bacteria_count  access_clean_water_pct  diarrheal_cases_per_100k  infant_mortality_rate  gdp_per_capita_usd  healthcare_access_index  sanitation_coverage_pct
+count  3000.000000      3000.000000  3000.000000     3000.000000             3000.000000               3000.000000            3000.000000         3000.000000              3000.000000              3000.000000
+mean   2012.012667         4.954390     7.255847     2488.477333               64.612333                249.776667              50.811900        50036.196667                50.029193                60.371007
+std       7.229287         2.860072     0.720464     1431.421553               20.308463                144.111543              28.465323        28598.750508                28.896676                23.159678
+min    2000.000000         0.000000     6.000000        0.000000               30.010000                  0.000000               2.060000          521.000000                 0.190000                20.010000
+25%    2006.000000         2.560000     6.630000     1268.000000               47.027500                124.000000              26.467500        25010.250000                24.982500                40.440000
+50%    2012.000000         4.950000     7.280000     2469.000000               64.780000                248.000000              50.230000        49621.500000                50.390000                60.580000
+75%    2018.000000         7.400000     7.870000     3736.250000               82.302500                378.000000              76.260000        74778.250000                74.817500                80.420000
+max    2024.000000        10.000000     8.500000     4998.000000               99.990000                499.000000              99.990000        99948.000000                99.980000                99.990000
+
+=================================================================
+  SECTION B - Two-Sample t-Test (Well vs. River)
+=================================================================
+Research question: Is the mean contaminant level in well water
+significantly different from that in river water?
+
+Statistic                            Well        River
+------------------------------------------------------
+Sample size (n)                       498          538
+Sample mean (mean_x)           5.04160643   4.95275093
+Sample std dev (s)             2.82899294   2.87666167
+
+Hypotheses:
+  H0: μ_Well = μ_River   (i.e. μ_Well - μ_River = 0)
+  H1: μ_Well ≠ μ_River   (two-tailed)
+  Significance level alpha = 0.05
+
+Calculations:
+  Difference in means (mean_x_Well - mean_x_River) = +0.08885550
+  Standard error of difference            = 0.17734730
+  Test statistic  z0                      = +0.50102537
+  Critical value  z_{alpha/2} = z_0.025        = +/- 1.9600
+  p-value (two-tailed)                    = 0.616353
+
+Decision:  Reject H0 if |z0| > 1.9600
+                |z0| = 0.5010  ->  FAIL TO REJECT H0
+
+Conclusion:
+  At the 5 % significance level we fail to reject H0.
+  There is insufficient evidence to conclude that the mean contaminant
+  level in well water differs from that in river water.
+
+=================================================================
+  SECTION C - One-Way ANOVA (all 6 water source types)
+=================================================================
+Research question: Does mean contaminant level differ
+significantly across Lake, Pond, River, Spring, Tap, Well?
+
+    Statistic                                    Value
+  --------------------------------------------------
+  Total observations (N)                        3000
+  Number of groups (a)                             6
+  Grand mean (mean_x..)                   4.95439000
+
+  SSTr  (between groups)                    9.139733
+  SSE   (within  groups)                24522.716751
+  SST   (total)                         24531.856484
+
+  df_Treatment (a-1)                               5
+  df_Error     (N-a)                            2994
+
+  MSTr = SSTr / df_Tr                     1.82794658
+  MSE  = SSE  / df_E                      8.19062016
+
+  F0 = MSTr / MSE                         0.22317560
+  F_crit = F(0.05; {df_Tr}; {df_E})           2.2171
+  p-value                                   0.952657
+
+Decision:  Reject H0 if F0 > F_crit = 2.2171
+                F0 = 0.2232  ->  FAIL TO REJECT H0
+
+Conclusion:
+  At alpha = 0.05 we fail to reject H0.
+  There is no statistically significant evidence that the mean
+  contaminant level differs across the six water source types.
+
+=================================================================
+  SECTION D - Chi-Square Test 1: Well vs. River (High/Low)
+=================================================================
+Research question: Is there an association between water source
+(Well vs. River) and contamination category (High >5 / Low <5)?
+
+Observed Frequency Table:
+contam_cat         High  Low
+water_source_type           
+Well                252  246
+River               269  269
+
+Expected Frequency Table:
+           High       Low
+Well   250.4421  247.5579
+River  270.5579  267.4421
+
+  X² statistic             = 0.0375
+  Degrees of freedom       = 1
+  X²_crit (alpha=0.05, df=1) = 3.8415
+  p-value                  = 0.8464
+
+Decision:  Reject H0 if X² > X²_crit = 3.8415
+                X² = 0.0375  ->  FAIL TO REJECT H0
+
+Conclusion:
+  At alpha = 0.05 we fail to reject H0.
+  The probability of High/Low contamination is roughly the same
+  for both Well and River water sources.
+
+=================================================================
+  SECTION E - Chi-Square Test 2: All 6 Sources (High/Low)
+=================================================================
+Research question: Is contamination category (High/Low) independent
+of water source type across all six sources?
+
+Observed Frequency Table:
+contam_cat         High  Low
+water_source_type           
+Well                252  246
+River               269  269
+Lake                241  240
+Pond                223  227
+Spring              259  273
+Tap                 240  261
+
+  Overall P(High) = 1484/3000 = 0.4947
+  Overall P(Low)  = 1516/3000 = 0.5053
+
+Expected Frequency Table:
+            High       Low
+Well    246.3440  251.6560
+River   266.1307  271.8693
+Lake    237.9347  243.0653
+Pond    222.6000  227.4000
+Spring  263.1627  268.8373
+Tap     247.8280  253.1720
+
+Cell-by-cell X² contributions:
+          High     Low
+Well    0.1299  0.1271
+River   0.0309  0.0303
+Lake    0.0395  0.0387
+Pond    0.0007  0.0007
+Spring  0.0658  0.0645
+Tap     0.2473  0.2420
+
+  Total X² statistic          = 1.0174
+  Degrees of freedom          = 5
+  X²_crit (alpha=0.05, df=5) = 11.0705
+  p-value                     = 0.9612
+
+Decision:  Reject H0 if X² > X²_crit = 11.0705
+                X² = 1.0174  ->  FAIL TO REJECT H0
+
+Conclusion:
+  At alpha = 0.05 we fail to reject H0.
+  The likelihood of High/Low contamination is independent of
+  whether the source is a Lake, Pond, River, Spring, Tap, or Well.
+
+=================================================================
+  FINAL SUMMARY - All Hypothesis Tests (Task 2)
+=================================================================
+  Test                                   Statistic   Critical    p-value Decision
+  --------------------------------------------------------------------------------
+  Two-Sample t-Test (Well vs River)      z0=0.5010   +/- 1.96     0.6164  Fail to Reject H0
+  ANOVA (6 sources)                      F0=0.2232       2.22     0.9527  Fail to Reject H0
+  Chi-Square 1 (Well vs River)           X²=0.0375       3.84     0.8464  Fail to Reject H0
+  Chi-Square 2 (All 6 sources)           X²=1.0174      11.07     0.9612  Fail to Reject H0
+
+  Overall: No test found a statistically significant difference in
+  contamination levels across any grouping at alpha = 0.05.
+
+All sections complete.
