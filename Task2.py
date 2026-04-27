@@ -38,6 +38,20 @@ pd.set_option('display.max_columns', None)
 pd.set_option('display.width', 1000)
 print(df.describe())
 
+print("\nCategory        | x_bar_i      s_i          n_i")
+print("-" * 51)
+overall_mean = df["contaminant_ppm"].mean()
+overall_std = df["contaminant_ppm"].std(ddof=1)
+overall_n = len(df)
+print(f"{'Contaminant_ppm':<15} | {overall_mean:<12.6f} {overall_std:<12.6f} {overall_n}\n")
+
+for source in SOURCE_ORDER:
+    sub = df[df["water_source_type"] == source]["contaminant_ppm"]
+    mean_val = sub.mean()
+    std_val = sub.std(ddof=1)
+    n_val = len(sub)
+    print(f"{source:<15} | {mean_val:<12.8f} {std_val:<12.8f} {n_val}")
+
 # -- Histogram - distribution of contaminant_ppm --------------------------
 fig, ax = plt.subplots(figsize=(9, 5))
 ax.hist(df["contaminant_ppm"], bins=40, color="#2196F3", edgecolor="white",
@@ -153,11 +167,11 @@ print("  H1: μ_Well ≠ μ_River   (two-tailed)")
 print("  Significance level alpha = 0.05")
 
 # -- test statistic (large-sample z) -------------------------------------------
-diff       = x_well - x_river          # observed difference
+diff       = x_well - x_river
 se_diff    = np.sqrt(s_well**2 / n_well + s_river**2 / n_river)
 z0         = diff / se_diff
 
-# -- critical value & p-value -------------------------------------------
+# critical value & p-value
 alpha      = 0.05
 z_critical = stats.norm.ppf(1 - alpha / 2)
 p_value    = 2 * (1 - stats.norm.cdf(abs(z0)))
@@ -260,10 +274,10 @@ grand_mean = sum(ni * xi for ni, xi in zip(group_ns, group_means)) / N
 
 # Sum of Squares
 SSTr = sum(ni * (xi - grand_mean)**2
-           for ni, xi in zip(group_ns, group_means))          # between groups
+           for ni, xi in zip(group_ns, group_means))         
 SSE  = sum(((g - gm)**2).sum()
-           for g, gm in zip(groups, group_means))              # within groups
-SST  = SSTr + SSE                                              # total
+           for g, gm in zip(groups, group_means))             
+SST  = SSTr + SSE                                            
 
 # Degrees of freedom
 df_Tr = a - 1
@@ -383,12 +397,11 @@ ct2   = ct2.reindex(index=["Well","River"], columns=["High","Low"])
 print("\nObserved Frequency Table:")
 print(ct2.to_string())
 
-# row/col totals
-row_totals = ct2.sum(axis=1).values    # [Well_total, River_total]
-col_totals = ct2.sum(axis=0).values    # [High_total,  Low_total]
+# expected frequencies
+row_totals = ct2.sum(axis=1).values  
+col_totals = ct2.sum(axis=0).values  
 N2         = ct2.values.sum()
 
-# expected frequencies
 E2 = np.outer(row_totals, col_totals) / N2
 E2_df = pd.DataFrame(E2, index=["Well","River"], columns=["High","Low"])
 
